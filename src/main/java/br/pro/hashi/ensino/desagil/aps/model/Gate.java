@@ -4,6 +4,7 @@ public abstract class Gate implements SignalEmitter, SignalReceiver {
     private final int inputSize;
 
     protected Gate(int inputSize) {
+
         this.inputSize = inputSize;
     }
 

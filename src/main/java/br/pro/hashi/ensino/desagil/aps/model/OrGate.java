@@ -41,3 +41,4 @@ public class OrGate extends Gate {
         }
     }
 }
+

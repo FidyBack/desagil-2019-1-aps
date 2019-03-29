@@ -21,7 +21,6 @@ public class AndGate extends Gate {
         return nandRight.read();
     }
 
-
     @Override
     public void connect(int inputPin, SignalEmitter emitter) {
         if (inputPin < 0 || inputPin > 1) {

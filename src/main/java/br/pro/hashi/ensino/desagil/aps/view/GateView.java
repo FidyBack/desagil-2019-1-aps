@@ -1,6 +1,9 @@
+// A APS está sendo realizada por: Abel Cavalcante de Andrade e Rodrigo Oliveira de Jesus
+
 package br.pro.hashi.ensino.desagil.aps.view;
 
-import br.pro.hashi.ensino.desagil.aps.model.*;
+import br.pro.hashi.ensino.desagil.aps.model.Gate;
+import br.pro.hashi.ensino.desagil.aps.model.Switch;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +29,7 @@ public class GateView extends JPanel implements ActionListener {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 
-        if (gate.getInputSize() == 2 ){
+        if (gate.getInputSize() == 2) {
             add(inputLabel);
             add(firstInput);
             add(secondInput);
@@ -36,7 +39,7 @@ public class GateView extends JPanel implements ActionListener {
             firstInput.addActionListener(this);
             secondInput.addActionListener(this);
             output.setEnabled(false);
-        } else{
+        } else {
             add(inputLabel);
             add(firstInput);
             add(outputLabel);
@@ -56,7 +59,7 @@ public class GateView extends JPanel implements ActionListener {
         first = firstInput.isSelected();
         second = secondInput.isSelected();
 
-        if (gate.getInputSize() == 2 ) {
+        if (gate.getInputSize() == 2) {
             Switch chave1 = new Switch();
             Switch chave2 = new Switch();
 
@@ -74,7 +77,7 @@ public class GateView extends JPanel implements ActionListener {
 
             gate.connect(0, chave1);
             gate.connect(1, chave2);
-        } else{
+        } else {
             Switch chave1 = new Switch();
 
             if (first) {

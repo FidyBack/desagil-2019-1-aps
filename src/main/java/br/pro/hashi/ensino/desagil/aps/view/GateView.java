@@ -6,95 +6,69 @@ import br.pro.hashi.ensino.desagil.aps.model.Gate;
 import br.pro.hashi.ensino.desagil.aps.model.Switch;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class GateView extends JPanel implements ActionListener {
-
+public class GateView extends JPanel implements ItemListener {
+    private final Switch[] switches;
     private final Gate gate;
 
-    private final JCheckBox firstInput;
-    private final JCheckBox secondInput;
-    private final JCheckBox output;
+    private final JCheckBox[] inputBoxes;
+    private final JCheckBox outputBox;
 
     public GateView(Gate gate) {
         this.gate = gate;
+        int inputSize = gate.getInputSize();
 
-        firstInput = new JCheckBox();
-        secondInput = new JCheckBox();
-        output = new JCheckBox();
+        switches = new Switch[inputSize];
+        inputBoxes = new JCheckBox[inputSize];
 
-        JLabel inputLabel = new JLabel("Entrada");
-        JLabel outputLabel = new JLabel("Saída");
+        for (int i = 0; i < inputSize; i++) {
+            switches[i] = new Switch();
+            inputBoxes[i] = new JCheckBox();
+
+            gate.connect(i, switches[i]);
+        }
+
+        outputBox = new JCheckBox();
+
+        JLabel inputLabel = new JLabel("Input");
+        JLabel outputLabel = new JLabel("Output");
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-
-        if (gate.getInputSize() == 2) {
-            add(inputLabel);
-            add(firstInput);
-            add(secondInput);
-            add(outputLabel);
-            add(output);
-
-            firstInput.addActionListener(this);
-            secondInput.addActionListener(this);
-            output.setEnabled(false);
-        } else {
-            add(inputLabel);
-            add(firstInput);
-            add(outputLabel);
-            add(output);
-
-            firstInput.addActionListener(this);
-            output.setEnabled(false);
+        add(inputLabel);
+        for (JCheckBox inputBox : inputBoxes) {
+            add(inputBox);
         }
+        add(outputLabel);
+        add(outputBox);
+
+        for (JCheckBox inputBox : inputBoxes) {
+            inputBox.addItemListener(this);
+        }
+
+        outputBox.setEnabled(false);
 
         update();
     }
 
     private void update() {
-        boolean first;
-        boolean second;
-
-        first = firstInput.isSelected();
-        second = secondInput.isSelected();
-
-        if (gate.getInputSize() == 2) {
-            Switch chave1 = new Switch();
-            Switch chave2 = new Switch();
-
-            if (first) {
-                chave1.turnOn();
+        for (int i = 0; i < gate.getInputSize(); i++) {
+            if (inputBoxes[i].isSelected()) {
+                switches[i].turnOn();
             } else {
-                chave1.turnOff();
+                switches[i].turnOff();
             }
-            if (second) {
-                chave2.turnOn();
-            } else {
-
-                chave2.turnOff();
-            }
-
-            gate.connect(0, chave1);
-            gate.connect(1, chave2);
-        } else {
-            Switch chave1 = new Switch();
-
-            if (first) {
-                chave1.turnOn();
-            } else {
-                chave1.turnOff();
-            }
-
-            gate.connect(0, chave1);
         }
 
-        boolean out = gate.read();
-        output.setSelected(out);
+        boolean result = gate.read();
+
+        outputBox.setSelected(result);
     }
 
     @Override
-    public void actionPerformed(ActionEvent event) {
+    public void itemStateChanged(ItemEvent event) {
         update();
     }
 }

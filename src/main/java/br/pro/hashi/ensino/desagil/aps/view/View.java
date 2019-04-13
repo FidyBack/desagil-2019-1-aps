@@ -23,6 +23,7 @@ public class View extends JPanel implements ActionListener {
 
         add(menu);
         addGateView(0);
+
         menu.addActionListener(this);
     }
 
@@ -33,7 +34,7 @@ public class View extends JPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent event) {
         remove(gateView);
         int index = menu.getSelectedIndex();
         addGateView(index);

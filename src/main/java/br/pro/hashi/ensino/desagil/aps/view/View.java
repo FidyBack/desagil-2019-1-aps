@@ -37,8 +37,6 @@ public class View extends JPanel implements ActionListener {
         int index = menu.getSelectedIndex();
         addGateView(index);
 
-        // Mantenha esta linha, mas não precisa entendê-la.
-        // É necessária para evitar bugs em alguns sistemas.
         ((JFrame) SwingUtilities.getRoot(this)).pack();
     }
 }
